@@ -326,9 +326,12 @@
                     if (fv && !isFvReLeTaling) {
                         let low = fv.v.toLowerCase();
                         if (low === 're' || low === 'le') {
-                            // PENANGANAN BATAS KATA UNTUK AKSAKA SWARA RE / LE (ATURAN 1 & 3)
+                            // PENANGANAN BATAS KATA UNTUK AKSARA SWARA RE / LE
                             if (pending.type === 'normal') {
-                                if (low === 'le') {
+                                if (pending.ch === K.RA) {
+                                    // Aturan 3: Mati r + le -> Repha di atas Aksara Swara Le (𑼌𑼃)
+                                    out += K.Lvoc + K.REPHA;
+                                } else if (low === 'le') {
                                     // Aturan 1: Mati konsonan biasa -> Pasangan La + Pepet
                                     out += pending.ch + K.CONJ + K.LA + K.VS_EU;
                                 } else {
@@ -340,9 +343,6 @@
                             } else if (pending.type === 'h') {
                                 // Aturan 3: Mati h + le -> Visarga + Aksara Swara Le
                                 out += K.VIS + (low === 're' ? K.Rvoc : K.Lvoc);
-                            } else if (pending.ch === K.RA) {
-                                // Aturan 3: Mati r + le -> Repha di atas Aksara Swara Le
-                                out += K.REPHA + (low === 're' ? K.Rvoc : K.Lvoc);
                             } else {
                                 out += inde(fv.v);
                             }
@@ -574,9 +574,13 @@
                                 }
                             }
                             
-                            // Di dalam satu kata: konsonan + le -> Pasangan La + Pepet
+                            // Di dalam satu kata: konsonan + le -> Pasangan La + Pepet (Kecuali jika konsonan itu ra)
                             if (vLow === 'le') {
-                                out += cons.ch + K.CONJ + K.LA + K.VS_EU;
+                                if (cons.k === 'r') {
+                                    out += K.Lvoc + K.REPHA;
+                                } else {
+                                    out += cons.ch + K.CONJ + K.LA + K.VS_EU;
+                                }
                                 i = nxt + v.len; localV = true; lastVowel = v.v; lastConsonant = K.LA; continue;
                             }
 
