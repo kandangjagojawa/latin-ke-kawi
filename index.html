@@ -329,8 +329,8 @@
                             // PENANGANAN BATAS KATA UNTUK AKSARA SWARA RE / LE
                             if (pending.type === 'normal') {
                                 if (pending.ch === K.RA) {
-                                    // Aturan 3: Mati r + le -> Repha di atas Aksara Swara Le (𑼌𑼃)
-                                    out += K.Lvoc + K.REPHA;
+                                    // Aturan 3: Mati r + le -> Repha di atas Aksara Swara Le (Repha dulu baru Lvoc)
+                                    out += K.REPHA + K.Lvoc;
                                 } else if (low === 'le') {
                                     // Aturan 1: Mati konsonan biasa -> Pasangan La + Pepet
                                     out += pending.ch + K.CONJ + K.LA + K.VS_EU;
@@ -577,7 +577,7 @@
                             // Di dalam satu kata: konsonan + le -> Pasangan La + Pepet (Kecuali jika konsonan itu ra)
                             if (vLow === 'le') {
                                 if (cons.k === 'r') {
-                                    out += K.Lvoc + K.REPHA;
+                                    out += K.REPHA + K.Lvoc;
                                 } else {
                                     out += cons.ch + K.CONJ + K.LA + K.VS_EU;
                                 }
