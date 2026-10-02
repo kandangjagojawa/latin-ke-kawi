@@ -43,9 +43,9 @@
         .info-box { background: #f8f9fa; padding: 1rem; border-radius: 6px; border: 1px solid #e9ecef; }
         .info-box h4 { margin-bottom: 0.5rem; color: var(--accent); font-size: 0.9rem; }
         .info-box ul { list-style-type: none; }
-        .info-box li { margin-bottom: 0.4rem; display: flex; justify-content: space-between; border-bottom: 1px dashed #dcdde1; padding-bottom: 0.2rem; }
+        .info-box li { margin-bottom: 0.4rem; display: flex; justify-content: space-between; border-bottom: 1px dashed #dcdde1; padding-bottom: 0.2rem; align-items: center; }
         .info-box span, .info-box b, .info-box h4 { font-family: 'Noto Sans Kawi', system-ui, sans-serif; }
-        .info-box code { background: #e1e5ea; padding: 0.1rem 0.3rem; border-radius: 3px; font-family: monospace; font-weight: bold; color: #d35400; }
+        .info-box code { background: #e1e5ea; padding: 0.1rem 0.3rem; border-radius: 3px; font-family: monospace; font-weight: bold; color: #d35400; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -88,51 +88,58 @@
         </div>
 
         <div class="info-panel">
-            <h3>Panduan & Referensi Pengetikan (Kawi.js Engine)</h3>
+            <h3>Panduan & Referensi Pengetikan</h3>
             <div class="info-grid">
 
+                <!-- Panel Aksara Swara Mandiri -->
                 <div class="info-box">
-                    <h4>Vokal & Sandhangan Swara</h4>
+                    <h4>Aksara Swara (Vokal Mandiri)</h4>
                     <ul>
-                        <li><span>a panjang (𑼴)</span> <code>aa</code></li>
-                        <li><span>i panjang (𑼷)</span> <code>ii</code></li>
-                        <li><span>u panjang (𑼹)</span> <code>uu</code></li>
-                        <li><span>e / taling (𑼾)</span> <code>é / e'</code></li>
-                        <li><span>ai (𑼿)</span> <code>ai</code></li>
-                        <li><span>au (𑽁)</span> <code>au</code></li>
-                    </ul>
-                </div>
-                
-                <div class="info-box">
-                    <h4>Aksara Swara & Hiatus</h4>
-                    <ul>
-                        <li><span>Aksara Swara <b>A/I/U/E/O</b></span> <code>Huruf Kapital</code></li>
-                        <li><span>Vokal Kecil <b>a/i/u</b></span> <code>Ha + Sandhangan</code></li>
-                        <li><span>Vocalic R (𑼊) / L (𑼌)</span> <code>re / le</code> (awal/lepas)</li>
-                        <li><span>Cakra Keret (𑽚 / 𑽜)</span> <code>re / le</code> (setelah kons)</li>
-                        <li><span>Panglancar (Hiatus)</span> <code>a-i / a-u</code> otomatis</li>
+                        <li><span>A (𑼄) / AA (𑼅)</span> <code>A / AA</code></li>
+                        <li><span>I (𑼆) / II (𑼇)</span> <code>I / II</code></li>
+                        <li><span>U (𑼈) / UU (𑼉)</span> <code>U / UU</code></li>
+                        <li><span>E (𑼎) / O (𑼐)</span> <code>E / O</code></li>
+                        <li><span>AI (𑼏) / AU (𑼄𑽁)</span> <code>AI / AU</code></li>
+                        <li><span>Vocalic R (𑼊) / L (𑼌)</span> <code>re / le</code></li>
                     </ul>
                 </div>
 
+                <!-- Panel Sandhangan Vokal -->
                 <div class="info-box">
-                    <h4>Aturan Sandhi Lanjutan</h4>
+                    <h4>Sandhangan (Vokal Kecil)</h4>
                     <ul>
-                        <li><span>Sastra Lampah</span> <code>Otomatis Lintas Kata</code></li>
-                        <li><span>Warga: s/n mati + warga</span> <code>Asimilasi Otomatis</code></li>
-                        <li><span>Ligatur Kṣa (𑼒𑽂𑼰)</span> <code>k + s</code></li>
-                        <li><span>Ligatur Rṇa / Rṣa</span> <code>r+n / r+s</code></li>
-                        <li><span>Pasangan vs Pangkon</span> <code>𑽂 (tengah) / 𑽁 (akhir)</code></li>
+                        <li><span>a (-) / aa (𑼴)</span> <code>a / aa</code></li>
+                        <li><span>i (𑼶) / ii (𑼷)</span> <code>i / ii</code></li>
+                        <li><span>u (𑼸) / uu (𑼹)</span> <code>u / uu</code></li>
+                        <li><span>e (𑼾) / o (𑽀)</span> <code>e / o</code></li>
+                        <li><span>ai (𑼿) / au (𑽁)</span> <code>ai / au</code></li>
                     </ul>
                 </div>
 
+                <!-- Panel Wyanjana Dasar -->
                 <div class="info-box">
-                    <h4>Ra, Ng, Ha Mati & Simbol</h4>
+                    <h4>Wyanjana Umum</h4>
                     <ul>
-                        <li><span>Repha (tengah) (𑼃)</span> <code>r</code> (sebelum kons)</li>
-                        <li><span>Ra pangku (akhir) (𑼬𑽁)</span> <code>r</code> (akhir kata)</li>
-                        <li><span>Anusvara (𑼁) / Visarga (𑼂)</span> <code>ng / h</code> (akhir)</li>
-                        <li><span>Lingsa (𑽃) / Lungsi (𑽄)</span> <code>, / .</code></li>
-                        <li><span>Punctuator (𑽅)</span> <code>@adeg</code></li>
+                        <li><span>ka (𑼒), ga (𑼔), nga (𑼖)</span> <code>k, g, ng</code></li>
+                        <li><span>ca (𑼗), ja (𑼙), nya (𑼛)</span> <code>c, j, ny</code></li>
+                        <li><span>ta (𑼡), da (𑼣), na (𑼥)</span> <code>t, d, n</code></li>
+                        <li><span>pa (𑼦), ba (𑼨), ma (𑼪)</span> <code>p, b, m</code></li>
+                        <li><span>ya (𑼫), ra (𑼬), la (𑼭), wa (𑼮)</span> <code>y, r, l, w</code></li>
+                        <li><span>sa (𑼱), ha (𑼲)</span> <code>s, h</code></li>
+                    </ul>
+                </div>
+
+                <!-- Panel Wyanjana Mahaprana & Khusus -->
+                <div class="info-box">
+                    <h4>Wyanjana Mahaprana & Khusus</h4>
+                    <ul>
+                        <li><span>kha (𑼓), gha (𑼕)</span> <code>kh, gh</code></li>
+                        <li><span>cha (𑼘), jha (𑼚)</span> <code>ch, jh</code></li>
+                        <li><span>tha (𑼢), dha (𑼤)</span> <code>th, dh</code></li>
+                        <li><span>pha (𑼧), bha (𑼩)</span> <code>ph, bh</code></li>
+                        <li><span>Ta (𑼜), Da (𑼞), Na (𑼠)</span> <code>tt/T, dd/D, nn/N</code></li>
+                        <li><span>Tha (𑼝), Dha (𑼟)</span> <code>tth/Th, ddh/Dh</code></li>
+                        <li><span>śa (𑼯), ṣa (𑼰)</span> <code>sh, ss/S</code></li>
                     </ul>
                 </div>
 
