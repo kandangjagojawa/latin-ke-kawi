@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Alih Aksara Kawi</title>
+    <title>Aplikasi Tata Tulis Aksara Kawi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kawi:wght@400;700&display=swap" rel="stylesheet">
@@ -141,10 +141,6 @@
     </div>
 
     <script>
-        /**
-         * ENGINE KAWI.JS Terintegrasi
-         * Modifikasi minor pada DANDA/DDANDA untuk menyesuaikan Lingsa/Lungsi Kawi Standar
-         */
         const K = {
             REPHA:'\u{11F02}', CONJ:'\u{11F42}', KILLER:'\u{11F41}', ANUS:'\u{11F01}', VIS:'\u{11F03}',
             A:'\u{11F04}', AA:'\u{11F05}', I:'\u{11F06}', II:'\u{11F07}', U:'\u{11F08}', UU:'\u{11F09}', Rvoc:'\u{11F0A}', Lvoc:'\u{11F0C}', E:'\u{11F0E}', AI:'\u{11F0F}', O:'\u{11F10}',
@@ -257,7 +253,6 @@
         function transliterate(raw) {
             if (!raw) return '';
 
-            // Eksekusi Macro sebelum tokenisasi
             raw = raw
                 .replace(/@luhur/g, '𑽅')
                 .replace(/@madya/g, '𑽆')
@@ -507,6 +502,16 @@
                                 let ncCh = nc.ch;
                                 if (isNasalN(ncCh)) ncCh = K.NNA;
                                 if (isSibilant(ncCh)) ncCh = K.SSA;
+                                
+                                // === Pengecualian KHUSUS untuk kata "rwa" saja ===
+                                if (word.toLowerCase() === 'rwa' && i === 0) {
+                                    out += K.RA + K.CONJ;
+                                    if (vAfter) { out += ncCh + sand(vAfter.v); i = after + vAfter.len; lastVowel = vAfter.v; lastConsonant = ncCh; }
+                                    else { out += ncCh + K.CONJ; i = after; lastVowel = null; lastConsonant = ncCh; }
+                                    localV = !!vAfter; continue;
+                                }
+                                // ===================================================
+
                                 out += K.REPHA;
                                 if (vAfter) { out += ncCh + K.CONJ + ncCh + sand(vAfter.v); i = after + vAfter.len; lastVowel = vAfter.v; lastConsonant = ncCh; }
                                 else { out += ncCh + K.CONJ + ncCh + K.CONJ; i = after; lastVowel = null; lastConsonant = ncCh; }
