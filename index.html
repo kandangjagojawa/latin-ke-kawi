@@ -327,13 +327,18 @@
                         let low = fv.v.toLowerCase();
                         if (low === 're' || low === 'le') {
                             if (pending.type === 'normal') {
-                                out += pending.ch + (low === 're' ? K.VS_R : K.VS_L);
+                                // PERUBAHAN: Konsonan mati umum + le -> Pasangan La + Pepet
+                                if (low === 'le') {
+                                    out += pending.ch + K.CONJ + K.LA + K.VS_EU;
+                                } else {
+                                    out += pending.ch + K.VS_R;
+                                }
                             } else if (pending.type === 'ng') {
-                                out += K.NGA + (low === 're' ? K.VS_R : K.VS_L);
+                                out += K.ANUS + (low === 're' ? K.Rvoc : K.Lvoc);
                             } else if (pending.type === 'h') {
-                                out += K.HA + (low === 're' ? K.VS_R : K.VS_L);
+                                out += K.VIS + (low === 're' ? K.Rvoc : K.Lvoc);
                             } else if (pending.ch === K.RA) {
-                                out += K.RA + (low === 're' ? K.VS_R : K.VS_L);
+                                out += K.REPHA + (low === 're' ? K.Rvoc : K.Lvoc);
                             } else {
                                 out += inde(fv.v);
                             }
@@ -424,7 +429,12 @@
                                         word = word.substr(afterVAfter + 1);
                                         pending = null; prevVowel = true; if (!word) continue;
                                     } else {
-                                        out += pCh + K.CONJ + fCh + sand(vAfter.v);
+                                        // PERUBAHAN: Pasangan + le -> Pasangan + Pasangan La + Pepet
+                                        if (lowAfter === 'le') {
+                                            out += pCh + K.CONJ + fCh + K.CONJ + K.LA + K.VS_EU;
+                                        } else {
+                                            out += pCh + K.CONJ + fCh + sand(vAfter.v);
+                                        }
                                         word = word.substr(after + vAfter.len);
                                         lastConsonant = fCh;
                                     }
@@ -550,9 +560,16 @@
                                     i = afterV + 1; localV = true; lastVowel = "e'"; continue;
                                 }
                             }
-                            if ((cons.k === 'r' || cons.k === 'l') && vLow === 'e') {
-                                out += (cons.k === 'r' ? K.Rvoc : K.Lvoc);
-                                i = nxt + v.len; localV = true; lastVowel = v.v; lastConsonant = (cons.k === 'r' ? K.RA : K.LA); continue;
+                            
+                            // PERUBAHAN: Konsonan + le di dalam kata -> Pasangan La + Pepet
+                            if (vLow === 'le') {
+                                out += cons.ch + K.CONJ + K.LA + K.VS_EU;
+                                i = nxt + v.len; localV = true; lastVowel = v.v; lastConsonant = K.LA; continue;
+                            }
+
+                            if (cons.k === 'r' && vLow === 'e') {
+                                out += K.Rvoc;
+                                i = nxt + v.len; localV = true; lastVowel = v.v; lastConsonant = K.RA; continue;
                             }
                             if ((cons.k === 'r' || cons.k === 'l') && ["e'", "e’", "ex", "é", "è", "ê"].includes(vLow)) {
                                 out += cons.ch + K.VS_E;
