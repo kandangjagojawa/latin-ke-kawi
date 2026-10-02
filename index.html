@@ -512,6 +512,15 @@
                                 }
                                 // ===================================================
 
+                                // === Pengecualian KHUSUS untuk kata "rsi" saja ===
+                                if (word.toLowerCase() === 'rsi' && i === 0) {
+                                    out += K.Rvoc + K.CONJ + K.SSA + K.VS_I;
+                                    i = word.length;
+                                    localV = true; lastVowel = 'i'; lastConsonant = K.SSA;
+                                    continue;
+                                }
+                                // ===================================================
+
                                 out += K.REPHA;
                                 if (vAfter) { out += ncCh + K.CONJ + ncCh + sand(vAfter.v); i = after + vAfter.len; lastVowel = vAfter.v; lastConsonant = ncCh; }
                                 else { out += ncCh + K.CONJ + ncCh + K.CONJ; i = after; lastVowel = null; lastConsonant = ncCh; }
