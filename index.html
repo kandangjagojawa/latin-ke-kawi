@@ -52,7 +52,7 @@
 
     <div class="container">
         <h1>Aplikasi Tata Tulis Aksara Kawi</h1>
-        <div class="subtitle">STANDAR UNICODE (NOTO SANS KAWI)</div>
+        <div class="subtitle">STANDAR UNICODE (NOTO SANS KAWI) - SCRIPTIO CONTINUA</div>
 
         <div class="control-group">
             <div class="control-item">
@@ -141,6 +141,26 @@
                         <li><span>Ta (𑼜), Da (𑼞), Na (𑼠)</span> <code>tt/T, dd/D, nn/N</code></li>
                         <li><span>Tha (𑼝), Dha (𑼟)</span> <code>tth/Th, ddh/Dh</code></li>
                         <li><span>śa (𑼯), ṣa (𑼰)</span> <code>sh, ss/S</code></li>
+                    </ul>
+                </div>
+
+                <!-- Panel Tanda Baca & Simbol Kawi -->
+                <div class="info-box" style="grid-column: 1 / -1;">
+                    <h4>Tanda Baca & Simbol Kawi</h4>
+                    <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.5rem 1.5rem;">
+                        <li><span>KAWI SIGN CANDRABINDU (𑼀)</span> <code>@candrabindu</code></li>
+                        <li><span>KAWI PUNCTUATION SECTION MARKER (𑽅)</span> <code>@section / @luhur / @andhap / @adeg</code></li>
+                        <li><span>KAWI PUNCTUATION ALTERNATE SECTION MARKER (𑽆)</span> <code>@altsection / @madya</code></li>
+                        <li><span>KAWI PUNCTUATION FLOWER (𑽇)</span> <code>@flower</code></li>
+                        <li><span>KAWI PUNCTUATION SPACE FILLER (𑽈)</span> <code>@spacefiller</code></li>
+                        <li><span>KAWI PUNCTUATION DOT (𑽃)</span> <code>@dot</code></li>
+                        <li><span>KAWI PUNCTUATION DOUBLE DOT (𑽄)</span> <code>@doubledot</code></li>
+                        <li><span>KAWI PUNCTUATION TRIPLE DOT (𑽉)</span> <code>@tripledot</code></li>
+                        <li><span>KAWI PUNCTUATION CIRCLE (𑽊)</span> <code>@circle</code></li>
+                        <li><span>KAWI PUNCTUATION FILLED CIRCLE (𑽋)</span> <code>@filledcircle</code></li>
+                        <li><span>KAWI PUNCTUATION SPIRAL (𑽌)</span> <code>@spiral</code></li>
+                        <li><span>KAWI PUNCTUATION CLOSING SPIRAL (𑽍)</span> <code>@closingspiral</code></li>
+                        <li><span>KAWI SIGN NUKTA (𑽏)</span> <code>@nukta</code></li>
                     </ul>
                 </div>
 
@@ -261,13 +281,30 @@
         function transliterate(raw) {
             if (!raw) return '';
 
+            // Penanganan Makro Tanda Baca & Simbol Kawi
             raw = raw
-                .replace(/@luhur/g, '𑽅')
-                .replace(/@madya/g, '𑽆')
-                .replace(/@andhap/g, '𑽅')
-                .replace(/@guru/g, '𑽅𑽄𑽅')
-                .replace(/@adeg/g, '𑽅')
-                .replace(/@pancak/g, '𑽄𑽅𑽄');
+                .replace(/@candrabindu/g, '\u{11F00}')
+                .replace(/@section/g, '\u{11F45}')
+                .replace(/@luhur/g, '\u{11F45}')
+                .replace(/@andhap/g, '\u{11F45}')
+                .replace(/@adeg/g, '\u{11F45}')
+                .replace(/@altsection/g, '\u{11F46}')
+                .replace(/@madya/g, '\u{11F46}')
+                .replace(/@flower/g, '\u{11F47}')
+                .replace(/@spacefiller/g, '\u{11F48}')
+                .replace(/@dot/g, '\u{11F43}')
+                .replace(/@doubledot/g, '\u{11F44}')
+                .replace(/@tripledot/g, '\u{11F49}')
+                .replace(/@circle/g, '\u{11F4A}')
+                .replace(/@filledcircle/g, '\u{11F4B}')
+                .replace(/@spiral/g, '\u{11F4C}')
+                .replace(/@closingspiral/g, '\u{11F4D}')
+                .replace(/@nukta/g, '\u{11F4F}')
+                .replace(/@guru/g, '\u{11F45}\u{11F44}\u{11F45}')
+                .replace(/@pancak/g, '\u{11F44}\u{11F45}\u{11F44}');
+
+            // Penanganan Otomatisasi Angka dengan Double Dot di Awal dan Akhir Saja
+            raw = raw.replace(/\d+/g, '\u{11F44}$&' + '\u{11F44}');
 
             let toks = tokenize(raw);
             let out = '';
@@ -326,24 +363,17 @@
                     if (fv && !isFvReLeTaling) {
                         let low = fv.v.toLowerCase();
                         if (low === 're' || low === 'le') {
-                            // PENANGANAN BATAS KATA UNTUK AKSARA SWARA RE / LE
                             if (pending.type === 'normal') {
                                 if (pending.ch === K.RA) {
-                                    // Mati r + re -> Repha + Aksara Swara Re (𑼊𑼃)
-                                    // Mati r + le -> Repha + Aksara Swara Le (𑼌𑼃)
                                     out += K.REPHA + (low === 're' ? K.Rvoc : K.Lvoc);
                                 } else if (low === 'le') {
-                                    // Aturan 1: Mati konsonan biasa + le -> Pasangan La + Pepet
                                     out += pending.ch + K.CONJ + K.LA + K.VS_EU;
                                 } else {
-                                    // Mati konsonan biasa + re -> Sandhangan Ra
                                     out += pending.ch + K.VS_R;
                                 }
                             } else if (pending.type === 'ng') {
-                                // Mati ng + re/le -> Anusvara + Aksara Swara Re/Le
                                 out += K.ANUS + (low === 're' ? K.Rvoc : K.Lvoc);
                             } else if (pending.type === 'h') {
-                                // Mati h + re/le -> Visarga + Aksara Swara Re/Le
                                 out += K.VIS + (low === 're' ? K.Rvoc : K.Lvoc);
                             } else {
                                 out += inde(fv.v);
@@ -465,7 +495,6 @@
                         pending = null;
                     }
                 } else if (prevVowel) {
-                    // Aturan 2: Kata pertama berakhiran vokal terbuka -> Kata berikutnya diawali Aksara Swara Le / Re
                     let fv = mV(word, 0);
                     if (fv) {
                         let lowFv = fv.v.toLowerCase();
