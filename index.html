@@ -148,19 +148,19 @@
                 <div class="info-box" style="grid-column: 1 / -1;">
                     <h4>Tanda Baca & Simbol Kawi</h4>
                     <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.5rem 1.5rem;">
-                        <li><span>KAWI SIGN CANDRABINDU (𑽀)</span> <code>~</code></li>
+                        <li><span>KAWI SIGN CANDRABINDU (𑼀)</span> <code>~</code></li>
                         <li><span>KAWI PUNCTUATION SECTION MARKER (𑽅)</span> <code>||</code></li>
                         <li><span>KAWI PUNCTUATION ALTERNATE SECTION MARKER (𑽆)</span> <code>|=</code></li>
                         <li><span>KAWI PUNCTUATION FLOWER (𑽇)</span> <code>*</code></li>
                         <li><span>KAWI PUNCTUATION SPACE FILLER (𑽈)</span> <code>=</code></li>
-                        <li><span>KAWI PUNCTUATION DOT (𑽃)</span> <code>..</code></li>
-                        <li><span>KAWI PUNCTUATION DOUBLE DOT (𑽄)</span> <code>:</code></li>
-                        <li><span>KAWI PUNCTUATION TRIPLE DOT (𑽉)</span> <code>::</code></li>
-                        <li><span>KAWI PUNCTUATION CIRCLE (𑽊)</span> <code>o</code></li>
-                        <li><span>KAWI PUNCTUATION FILLED CIRCLE (𑽋)</span> <code>oo</code></li>
-                        <li><span>KAWI PUNCTUATION SPIRAL (𑽌)</span> <code>@</code></li>
-                        <li><span>KAWI PUNCTUATION CLOSING SPIRAL (𑽍)</span> <code>@@</code></li>
-                        <li><span>KAWI SIGN NUKTA (𑽺)</span> <code>^</code></li>
+                        <li><span>KAWI PUNCTUATION DOT (𑽉)</span> <code>%</code></li>
+                        <li><span>KAWI PUNCTUATION DOUBLE DOT (𑽊)</span> <code>:</code></li>
+                        <li><span>KAWI PUNCTUATION TRIPLE DOT (𑽋)</span> <code>::</code></li>
+                        <li><span>KAWI PUNCTUATION CIRCLE (𑽌)</span> <code>#</code></li>
+                        <li><span>KAWI PUNCTUATION FILLED CIRCLE (𑽍)</span> <code>##</code></li>
+                        <li><span>KAWI PUNCTUATION SPIRAL (𑽎)</span> <code>$</code></li>
+                        <li><span>KAWI PUNCTUATION CLOSING SPIRAL (𑽏)</span> <code>$$</code></li>
+                        <li><span>KAWI SIGN NUKTA (𑽺)</span> <code>+</code></li>
                     </ul>
                 </div>
 
@@ -174,7 +174,7 @@
             A:'\u{11F04}', AA:'\u{11F05}', I:'\u{11F06}', II:'\u{11F07}', U:'\u{11F08}', UU:'\u{11F09}', Rvoc:'\u{11F0A}', Lvoc:'\u{11F0C}', E:'\u{11F0E}', AI:'\u{11F0F}', O:'\u{11F10}',
             KA:'\u{11F12}', KHA:'\u{11F13}', GA:'\u{11F14}', GHA:'\u{11F15}', NGA:'\u{11F16}', CA:'\u{11F17}', CHA:'\u{11F18}', JA:'\u{11F19}', JHA:'\u{11F1A}', NYA:'\u{11F1B}', TTA:'\u{11F1C}', TTHA:'\u{11F1D}', DDA:'\u{11F1E}', DDHA:'\u{11F1F}', NNA:'\u{11F20}', TA:'\u{11F21}', THA:'\u{11F22}', DA:'\u{11F23}', DHA:'\u{11F24}', NA:'\u{11F25}', PA:'\u{11F26}', PHA:'\u{11F27}', BA:'\u{11F28}', BHA:'\u{11F29}', MA:'\u{11F2A}', YA:'\u{11F2B}', RA:'\u{11F2C}', LA:'\u{11F2D}', WA:'\u{11F2E}', SHA:'\u{11F2F}', SSA:'\u{11F30}', SA:'\u{11F31}', HA:'\u{11F32}',
             VS_AA:'\u{11F34}', VS_I:'\u{11F36}', VS_II:'\u{11F37}', VS_U:'\u{11F38}', VS_UU:'\u{11F39}', VS_R:'\u{11F3A}', VS_L:'\u{11F3C}', VS_E:'\u{11F3E}', VS_AI:'\u{11F3F}', VS_EU:'\u{11F40}',
-            DANDA:'\u{11F43}', DDANDA:'\u{11F44}', DOT:'\u{11F43}',
+            DANDA:'\u{11F43}', DDANDA:'\u{11F44}',
             DIG:['\u{11F50}','\u{11F51}','\u{11F52}','\u{11F53}','\u{11F54}','\u{11F55}','\u{11F56}','\u{11F57}','\u{11F58}','\u{11F59}']
         };
         K.VS_O = K.VS_E + K.VS_AA; 
@@ -281,26 +281,25 @@
         function transliterate(raw) {
             if (!raw) return '';
 
-            // Penanganan Makro Tanda Baca & Simbol Kawi dengan Shorthand 1-2 Karakter
+            // Penanganan Makro Tanda Baca & Simbol Kawi (Tanpa Bentrokan Karakter Latin)
             raw = raw
-                .replace(/@@/g, '\u{11F4D}')      // KAWI PUNCTUATION CLOSING SPIRAL
-                .replace(/@/g, '\u{11F4C}')       // KAWI PUNCTUATION SPIRAL
-                .replace(/~~/g, '\u{11F40}')      // CANDRABINDU
-                .replace(/~/g, '\u{11F40}')       // CANDRABINDU
-                .replace(/\^/g, '\u{11F5A}')      // KAWI SIGN NUKTA (11F5A)
-                .replace(/\|\|/g, '\u{11F45}')    // SECTION MARKER
-                .replace(/\|=/g, '\u{11F46}')     // ALTERNATE SECTION MARKER
-                .replace(/\*/g, '\u{11F47}')      // FLOWER
-                .replace(/=/g, '\u{11F48}')       // SPACE FILLER
-                .replace(/\:\:/g, '\u{11F49}')    // TRIPLE DOT
-                .replace(/\:\:/g, '\u{11F49}')    
-                .replace(/\.\./g, '\u{11F43}')    // DOT
-                .replace(/\:/g, '\u{11F44}')      // DOUBLE DOT
-                .replace(/\boo\b/g, '\u{11F4B}')  // FILLED CIRCLE
-                .replace(/\bo\b/g, '\u{11F4A}');  // CIRCLE
+                .replace(/\$\$/g, '\u{11F4F}')    // CLOSING SPIRAL (11F4F)
+                .replace(/\$/g, '\u{11F4E}')     // SPIRAL (11F4E)
+                .replace(/~~/g, '\u{11F00}')     // CANDRABINDU (11F00)
+                .replace(/~/g, '\u{11F00}')      // CANDRABINDU (11F00)
+                .replace(/\+/g, '\u{11F5A}')     // NUKTA (11F5A)
+                .replace(/\|\|/g, '\u{11F45}')   // SECTION MARKER (11F45)
+                .replace(/\|=/g, '\u{11F46}')    // ALTERNATE SECTION MARKER (11F46)
+                .replace(/\*/g, '\u{11F47}')     // FLOWER (11F47)
+                .replace(/=/g, '\u{11F48}')      // SPACE FILLER (11F48)
+                .replace(/::/g, '\u{11F4B}')     // TRIPLE DOT (11F4B)
+                .replace(/%/g, '\u{11F49}')      // DOT (11F49)
+                .replace(/:/g, '\u{11F4A}')      // DOUBLE DOT (11F4A)
+                .replace(/##/g, '\u{11F4D}')     // FILLED CIRCLE (11F4D)
+                .replace(/#/g, '\u{11F4C}');     // CIRCLE (11F4C)
 
-            // Penanganan Otomatisasi Angka dengan Double Dot (11F44) di Awal dan Akhir Saja
-            raw = raw.replace(/\d+/g, '\u{11F44}$&' + '\u{11F44}');
+            // Otomatisasi Apitan Angka dengan KAWI PUNCTUATION DOUBLE DOT (11F4A)
+            raw = raw.replace(/\d+/g, '\u{11F4A}$&' + '\u{11F4A}');
 
             let toks = tokenize(raw);
             let out = '';
