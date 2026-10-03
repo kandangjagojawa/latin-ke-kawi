@@ -329,19 +329,21 @@
                             // PENANGANAN BATAS KATA UNTUK AKSARA SWARA RE / LE
                             if (pending.type === 'normal') {
                                 if (pending.ch === K.RA) {
-                                    // Aturan 3: Mati r + le -> Repha di atas Aksara Swara Le (Repha dulu baru Lvoc)
-                                    out += K.REPHA + K.Lvoc;
+                                    // Mati r + re -> Repha + Aksara Swara Re (𑼊𑼃)
+                                    // Mati r + le -> Repha + Aksara Swara Le (𑼌𑼃)
+                                    out += K.REPHA + (low === 're' ? K.Rvoc : K.Lvoc);
                                 } else if (low === 'le') {
-                                    // Aturan 1: Mati konsonan biasa -> Pasangan La + Pepet
+                                    // Aturan 1: Mati konsonan biasa + le -> Pasangan La + Pepet
                                     out += pending.ch + K.CONJ + K.LA + K.VS_EU;
                                 } else {
+                                    // Mati konsonan biasa + re -> Sandhangan Ra
                                     out += pending.ch + K.VS_R;
                                 }
                             } else if (pending.type === 'ng') {
-                                // Aturan 3: Mati ng + le -> Anusvara + Aksara Swara Le
+                                // Mati ng + re/le -> Anusvara + Aksara Swara Re/Le
                                 out += K.ANUS + (low === 're' ? K.Rvoc : K.Lvoc);
                             } else if (pending.type === 'h') {
-                                // Aturan 3: Mati h + le -> Visarga + Aksara Swara Le
+                                // Mati h + re/le -> Visarga + Aksara Swara Re/Le
                                 out += K.VIS + (low === 're' ? K.Rvoc : K.Lvoc);
                             } else {
                                 out += inde(fv.v);
@@ -463,7 +465,7 @@
                         pending = null;
                     }
                 } else if (prevVowel) {
-                    // Aturan 2: Kata pertama berakhiran vokal terbuka -> Kata berikutnya diawali Aksara Swara Le (𑼌)
+                    // Aturan 2: Kata pertama berakhiran vokal terbuka -> Kata berikutnya diawali Aksara Swara Le / Re
                     let fv = mV(word, 0);
                     if (fv) {
                         let lowFv = fv.v.toLowerCase();
@@ -574,7 +576,7 @@
                                 }
                             }
                             
-                            // Di dalam satu kata: konsonan + le -> Pasangan La + Pepet (Kecuali jika konsonan itu ra)
+                            // Di dalam satu kata
                             if (vLow === 'le') {
                                 if (cons.k === 'r') {
                                     out += K.REPHA + K.Lvoc;
@@ -584,10 +586,15 @@
                                 i = nxt + v.len; localV = true; lastVowel = v.v; lastConsonant = K.LA; continue;
                             }
 
-                            if (cons.k === 'r' && vLow === 'e') {
-                                out += K.Rvoc;
+                            if (vLow === 're') {
+                                if (cons.k === 'r') {
+                                    out += K.REPHA + K.Rvoc;
+                                } else {
+                                    out += cons.ch + sand(v.v);
+                                }
                                 i = nxt + v.len; localV = true; lastVowel = v.v; lastConsonant = K.RA; continue;
                             }
+
                             if ((cons.k === 'r' || cons.k === 'l') && ["e'", "e’", "ex", "é", "è", "ê"].includes(vLow)) {
                                 out += cons.ch + K.VS_E;
                                 i = nxt + v.len; localV = true; lastVowel = v.v; lastConsonant = cons.ch; continue;
